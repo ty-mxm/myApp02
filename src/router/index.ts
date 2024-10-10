@@ -1,33 +1,37 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
-import TabsPage from '../views/AppVersion.vue'
 import Login from '@/views/Login.vue';
 import Signup from '@/views/Signup.vue';
+import App from '@/App.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/tabs/tab1'
+    redirect: '/login' // Redirige vers la page de connexion par défaut
   },
   {
     path: '/tabs/',
-    component: TabsPage,
+    component: App,
     children: [
       {
         path: '',
-        redirect: '/tabs/tab1'
+        redirect: '/tabs/Trajets' // Redirige vers la première sous-route par défaut
       },
       {
-        path: 'tab1',
+        path: 'Trajets',
         component: () => import('@/views/Trajets.vue')
       },
       {
-        path: 'tab2',
+        path: 'AjouterTrajet',
         component: () => import('@/views/AjouterTrajet.vue')
       },
       {
-        path: 'tab3',
+        path: 'Parametres',
         component: () => import('@/views/Parametres.vue')
+      },
+      {
+        path: 'AppVersion',
+        component: () => import('@/views/AppVersion.vue')
       }
     ]
   },
@@ -41,12 +45,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Signup',
     component: Signup
   }
-  
-]
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
-})
+});
 
-export default router
+export default router;

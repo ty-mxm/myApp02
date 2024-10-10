@@ -1,2 +1,20 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+/* For information on how to create your own theme, please see:
+http://ionicframework.com/docs/theming/ */
+:root {
+    --ion-color-primary: #f48fb1; /* Soft pink */
+    --ion-color-primary-rgb: 244, 143, 177;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #ec407a; /* Darker shade of pink */
+    --ion-color-primary-tint: #f8bbd0; /* Lighter tint of pink */
+  
+    --ion-color-secondary: #ce93d8; /* Soft lavender */
+    --ion-color-secondary-rgb: 206, 147, 216;
+    --ion-color-secondary-contrast: #ffffff;
+    --ion-color-secondary-contrast-rgb: 255, 255, 255;
+    --ion-color-secondary-shade: #ba68c8; /* Darker shade of lavender */
+    --ion-color-secondary-tint: #e1bee7; /* Lighter tint of lavender */
+  }
+  

@@ -36,11 +36,13 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useSignUpController } from '@/Controller/SignUpController';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonItem, IonInput } from '@ionic/vue';
 
 export default defineComponent({
+  components: { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonItem, IonInput },
   setup() {
     const { handleSignUp } = useSignUpController();
-    
+
     const firstName = ref('');
     const lastName = ref('');
     const email = ref('');

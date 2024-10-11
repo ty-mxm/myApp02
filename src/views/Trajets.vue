@@ -37,7 +37,7 @@
 import { ref } from 'vue';
 
 const pathName = ref('');
-const recordedPositions = ref<any[]>([]); // Vous pouvez remplacer 'any' par le type approprié
+const recordedPositions = ref<any[]>([]); // remplacer 'any' par le type approprié
 const isTracking = ref(false);
 
 // Méthodes pour tester les boutons (sans logique)

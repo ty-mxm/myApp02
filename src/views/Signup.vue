@@ -34,50 +34,35 @@
 </template>
 
 <script lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonItem, IonInput } from '@ionic/vue';
-import { alertController } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+import { useSignUpController } from '@/Controller/SignUpController';
 
 export default defineComponent({
-  components: { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonItem, IonInput },
-  data() {
-    return {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      url: 'https://server-1-t93s.onrender.com/api/tp/signup',
-    };
-  },
-  methods: {
-    async handleSignUp() {
-      try {
-        const response = await fetch(this.url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            firstName: this.firstName,
-            lastName: this.lastName,
-            email: this.email,
-            password: this.password,
-          }),
-        });
+  setup() {
+    const { handleSignUp } = useSignUpController();
+    
+    const firstName = ref('');
+    const lastName = ref('');
+    const email = ref('');
+    const password = ref('');
 
-        if (!response.ok) throw new Error();
-        this.$router.push({ path: '/login' });
-      } catch {
-        const alert = await alertController.create({
-          header: 'Erreur',
-          message: 'Erreur lors de l\'inscription.',
-          buttons: ['OK'],
-        });
-        await alert.present();
-      }
-    },
+    return {
+      firstName,
+      lastName,
+      email,
+      password,
+      handleSignUp: () => handleSignUp(firstName.value, lastName.value, email.value, password.value),
+    };
   },
 });
 </script>
 
 <style scoped>
-
+.center-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
 </style>

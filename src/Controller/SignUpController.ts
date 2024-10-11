@@ -1,4 +1,4 @@
-import { signUpUser } from '@/Modele/SignupModel'; // Rajouté "S" majuscule
+import { signUpUser } from '@/Modele/signupModel';
 import { alertController } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 

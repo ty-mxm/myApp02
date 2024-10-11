@@ -28,52 +28,20 @@
 </template>
 
 <script lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonItem, IonInput } from '@ionic/vue';
-import { alertController } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+import { useLoginController } from '@/Controller/loginController';
 
 export default defineComponent({
-  components: { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonItem, IonInput },
-  data() {
+  setup() {
+    const email = ref('');
+    const password = ref('');
+    const { handleLogin } = useLoginController();
+
     return {
-      email: '',
-      password: '',
-      url: 'https://server-1-t93s.onrender.com/api/tp/login',
+      email,
+      password,
+      handleLogin: () => handleLogin(email.value, password.value),
     };
-  },
-  methods: {
-    async handleLogin() {
-      if (!this.email || !this.password) {
-        const alert = await alertController.create({
-          header: 'Erreur',
-          message: 'Veuillez entrer votre email et mot de passe.',
-          buttons: ['OK'],
-        });
-        await alert.present();
-        return;
-      }
-
-      try {
-        const response = await fetch(this.url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: this.email, password: this.password }),
-        });
-
-        if (!response.ok) throw new Error();
-
-        const data = await response.json();
-        localStorage.setItem('user', JSON.stringify(data));
-        this.$router.push({ path: '/geolocations' });
-      } catch {
-        const alert = await alertController.create({
-          header: 'Échec de la connexion',
-          message: 'Email ou mot de passe invalide.',
-          buttons: ['OK'],
-        });
-        await alert.present();
-      }
-    },
   },
 });
 </script>

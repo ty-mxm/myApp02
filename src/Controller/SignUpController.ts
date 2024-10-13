@@ -1,4 +1,4 @@
-import { signUpUser } from '@/Modele/signupModel';
+import { signUpUser } from '@/Modele/SignupModel';
 import { alertController } from '@ionic/vue';
 import { useRouter } from 'vue-router';
 

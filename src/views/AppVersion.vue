@@ -14,5 +14,4 @@ const version = ref('0.0.1');
 </script>
 
 <style scoped>
-
 </style>

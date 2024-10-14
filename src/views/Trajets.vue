@@ -49,16 +49,19 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import {
-  IonPage,
+  IonItem,
+  IonItemDivider,
+  IonLabel,
+  IonList,
+  IonContent,
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonContent,
-  IonItem,
-  IonInput,
+  IonFooter,
   IonButton,
-  IonFooter
-} from '@ionic/vue'; 
+  IonPage,
+  IonInput // Import de tous les composants requis
+} from '@ionic/vue';
 
 const pathName = ref('');
 const recordedPositions = ref<any[]>([]); // remplacer 'any' par le type approprié

@@ -64,6 +64,21 @@
 </template>
 
 <script setup lang="ts">
+import {
+  IonItem,
+  IonItemDivider,
+  IonLabel,
+  IonList,
+  IonContent,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonFooter,
+  IonInput,
+  IonPage,
+  IonButton
+} from '@ionic/vue';
+
 const goToDetails = () => {
   console.log('Naviguer vers les détails du trajet');
 };

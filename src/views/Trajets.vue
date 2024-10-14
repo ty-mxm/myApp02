@@ -2,42 +2,47 @@
   <ion-page>
     <ion-header class="header">
       <ion-toolbar color="primary">
-        <ion-title>Ajouter un Trajet</ion-title>
+        <ion-title>Mes Trajets</ion-title>
       </ion-toolbar>
     </ion-header>
 
-    <ion-content class="add-trip-content">
-      <div class="add-trip-container">
+    <ion-content class="trip-content">
+      <div class="trip-container">
         <ion-list>
-          <!-- Champ pour le nom du trajet -->
+          <!-- Section: Mes Trajets -->
+          <ion-item-divider color="primary">Mes Trajets</ion-item-divider>
           <ion-item>
-            <ion-input v-model="pathName" placeholder="Nom du trajet" required></ion-input>
-          </ion-item>
-
-          <!-- Bouton pour démarrer ou arrêter l'enregistrement -->
-          <ion-item>
-            <ion-button expand="block" @click="toggleTracking">
-              {{ isTracking ? 'Arrêter' : 'Démarrer' }} l'enregistrement
-            </ion-button>
-          </ion-item>
-
-          <!-- Liste des positions enregistrées -->
-          <ion-item-divider color="primary">Positions enregistrées</ion-item-divider>
-          <ion-item v-for="(position, index) in recordedPositions" :key="index">
             <ion-label>
-              Latitude: {{ position.latitude }}, Longitude: {{ position.longitude }}
+              <h2>Trajet 1</h2>
+              <p>Positions enregistrées: 2</p>
+              <p>Date de création: 2024-10-10</p>
             </ion-label>
+            <ion-button slot="end" @click="goToDetails">Détails</ion-button>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <h2>Trajet 2</h2>
+              <p>Positions enregistrées: 3</p>
+              <p>Date de création: 2024-10-09</p>
+            </ion-label>
+            <ion-button slot="end" @click="goToDetails">Détails</ion-button>
           </ion-item>
 
-          <!-- Bouton pour envoyer le trajet si des positions sont enregistrées -->
-          <ion-item v-if="recordedPositions.length > 0">
-            <ion-button expand="block" @click="sendTrip">Envoyer le trajet</ion-button>
+          <!-- Section: Trajets Partagés -->
+          <ion-item-divider color="primary">Trajets Partagés</ion-item-divider>
+          <ion-item>
+            <ion-label>
+              <h2>Trajet Partagé 1</h2>
+              <p>Positions enregistrées: 4</p>
+              <p>Date de création: 2024-10-08</p>
+            </ion-label>
+            <ion-button slot="end" @click="goToDetails">Détails</ion-button>
           </ion-item>
+
         </ion-list>
       </div>
     </ion-content>
 
-    <!-- Barre de pied de page avec les crédits -->
     <ion-footer class="footer">
       <ion-toolbar color="secondary">
         <ion-title>Ty Mammoliti et Sofia Krins 2024 ™</ion-title>
@@ -47,7 +52,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
 import {
   IonItem,
   IonItemDivider,
@@ -58,47 +62,35 @@ import {
   IonToolbar,
   IonTitle,
   IonFooter,
-  IonButton,
   IonPage,
-  IonInput // Import de tous les composants requis
+  IonButton
 } from '@ionic/vue';
 
-const pathName = ref('');
-const recordedPositions = ref<any[]>([]); // remplacer 'any' par le type approprié
-const isTracking = ref(false);
-
-// Méthode pour démarrer/arrêter l'enregistrement
-const toggleTracking = () => {
-  isTracking.value = !isTracking.value;
-  console.log(isTracking.value ? 'Enregistrement démarré' : 'Enregistrement arrêté');
-};
-
-// Méthode pour envoyer le trajet
-const sendTrip = () => {
-  console.log('Trajet envoyé');
+const goToDetails = () => {
+  console.log('Naviguer vers les détails du trajet');
 };
 </script>
 
 <style scoped>
-/* Contenu stylisé pour le formulaire d'ajout de trajet */
-.add-trip-content {
+/* Supprimer 100vh pour permettre au contenu d'être défilable sur les petits écrans */
+.trip-content {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
+  align-items: flex-start; /* Aligner les éléments en haut pour éviter que le contenu soit coupé */
+  padding-bottom: 20px;
 }
 
-/* Conteneur stylisé pour le formulaire */
-.add-trip-container {
+/* Conteneur stylisé pour les trajets */
+.trip-container {
   display: flex;
   flex-direction: column;
   width: 100%;
   max-width: 400px;
-  margin: 80px auto;
+  margin: 80px auto 0;
   padding: 20px;
   border: 2px solid #f48fb1; /* Bordure rose */
   border-radius: 10px;
   background-color: rgba(206, 147, 216, 0.8); /* Arrière-plan violet lavande */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre légère pour l'effet de profondeur */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre pour un effet de profondeur */
 }
 </style>

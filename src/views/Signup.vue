@@ -47,10 +47,8 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useSignUpController } from '@/Controller/SignUpController';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonItem, IonInput } from '@ionic/vue';
 
 export default defineComponent({
-  components: { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonItem, IonInput },
   setup() {
     const { handleSignUp } = useSignUpController();
 
@@ -78,7 +76,7 @@ export default defineComponent({
     height: 100vh;
   }
 
-  /* Conteneur stylé pour le formulaire d'inscription */
+  /* Conteneur stylisé pour le formulaire d'inscription */
   .signup-container {
     display: flex;
     flex-direction: column;
@@ -94,7 +92,7 @@ export default defineComponent({
 
     .white-text-with-underline {
   color: white;
-  text-decoration: underline; /* Adds the underline */
+  text-decoration: underline; /* Ajoute un soulignement */
   text-decoration-color: white;
   }
 

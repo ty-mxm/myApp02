@@ -85,7 +85,7 @@ export default defineComponent({
 
 .white-text-with-underline {
   color: white;
-  text-decoration: underline; /* Adds the underline */
+  text-decoration: underline; /* Ajoute un soulignement */
   text-decoration-color: white;
   }
 

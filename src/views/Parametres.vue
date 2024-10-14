@@ -37,24 +37,11 @@
 </template>
 
 <script lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonLabel, IonInput, IonButton } from '@ionic/vue';
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import UtilisateurService from '@/Modele/UtilisateurService'; // Import du service
 
 export default defineComponent({
-  components: {
-    IonPage,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonList,
-    IonItem,
-    IonLabel,
-    IonInput,
-    IonButton
-  },
   setup() {
     const router = useRouter();
     const utilisateur = ref({
@@ -96,7 +83,7 @@ export default defineComponent({
   height: 100vh;
 }
 
-  /* Conteneur stylé pour les paramètres */
+  /* Conteneur stylisé pour les paramètres */
 .settings-container {
   display: flex;
   flex-direction: column;

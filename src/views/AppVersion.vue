@@ -40,7 +40,7 @@ const version = ref('0.0.1');
   height: 100vh;
 }
 
-  /* Conteneur stylé pour la version */
+  /* Conteneur stylisé pour la version */
 .version-container {
   display: flex;
   flex-direction: column;

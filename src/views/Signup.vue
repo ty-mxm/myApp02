@@ -46,10 +46,33 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonItem,
+  IonInput,
+  IonButton,
+  IonFooter
+} from '@ionic/vue'; 
 import { useSignUpController } from '@/Controller/SignUpController';
 
 export default defineComponent({
+  components: {
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonItem,
+    IonInput,
+    IonButton,
+    IonFooter
+  },
   setup() {
+
     const { handleSignUp } = useSignUpController();
 
     const firstName = ref('');

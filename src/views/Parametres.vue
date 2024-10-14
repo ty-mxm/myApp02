@@ -39,9 +39,31 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonItem,
+  IonInput,
+  IonButton,
+  IonFooter
+} from '@ionic/vue'; 
 import UtilisateurService from '@/Modele/UtilisateurService'; // Import du service
 
 export default defineComponent({
+  components: {
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonItem,
+    IonInput,
+    IonButton,
+    IonFooter // Déclaration de IonFooter pour l'utiliser dans le template
+  },
   setup() {
     const router = useRouter();
     const utilisateur = ref({

@@ -27,6 +27,15 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonItem,
+  IonFooter
+} from '@ionic/vue'; 
 
 const version = ref('0.0.1');
 </script>

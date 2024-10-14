@@ -43,9 +43,31 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import {
+  IonPage,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonItem,
+  IonInput,
+  IonButton,
+  IonFooter
+} from '@ionic/vue'; 
 import { useLoginController } from '@/Controller/loginController';
 
 export default defineComponent({
+  components: {
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonItem,
+    IonInput,
+    IonButton,
+    IonFooter
+  },
   setup() {
     const email = ref('');
     const password = ref('');

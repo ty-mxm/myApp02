@@ -25,32 +25,33 @@
 
           <!-- Items du menu avec couleurs personnalisées -->
           <RouterLink to="/tabs/Trajets">
-            <ion-item>
-              <ion-icon name="location-outline" slot="start"></ion-icon>
-              <ion-label>Trajets</ion-label>
-            </ion-item>
-          </RouterLink>
+              <ion-item>
+                <ion-icon :icon="locationOutline" slot="start"></ion-icon>
+                <ion-label>Trajets</ion-label>
+              </ion-item>
+            </RouterLink>
 
-          <RouterLink to="/tabs/AjouterTrajet">
-            <ion-item>
-              <ion-icon name="add-outline" slot="start"></ion-icon>
-              <ion-label>Ajouter un Trajet</ion-label>
-            </ion-item>
-          </RouterLink>
+            <RouterLink to="/tabs/AjouterTrajet">
+              <ion-item>
+                <ion-icon :icon="addOutline" slot="start"></ion-icon>
+                <ion-label>Ajouter un Trajet</ion-label>
+              </ion-item>
+            </RouterLink>
 
-          <RouterLink to="/tabs/Parametres">
-            <ion-item>
-              <ion-icon name="settings-outline" slot="start"></ion-icon>
-              <ion-label>Paramètres</ion-label>
-            </ion-item>
-          </RouterLink>
+            <RouterLink to="/tabs/Parametres">
+              <ion-item>
+                <ion-icon :icon="settingsOutline" slot="start"></ion-icon>
+                <ion-label>Paramètres</ion-label>
+              </ion-item>
+            </RouterLink>
 
-          <RouterLink to="/tabs/AppVersion">
-            <ion-item>
-              <ion-icon name="information-circle-outline" slot="start"></ion-icon>
-              <ion-label>Version de l'application</ion-label>
-            </ion-item>
-          </RouterLink>
+            <RouterLink to="/tabs/AppVersion">
+              <ion-item>
+                <ion-icon :icon="informationCircleOutline" slot="start"></ion-icon>
+                <ion-label>Version de l'application</ion-label>
+              </ion-item>
+            </RouterLink>
+
 
         </ion-list>
       </ion-content>
@@ -77,6 +78,7 @@ import {
   IonTitle,
   IonMenuButton,
 } from '@ionic/vue';
+import { locationOutline, addOutline, settingsOutline, informationCircleOutline } from 'ionicons/icons';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -96,6 +98,14 @@ export default defineComponent({
     IonTitle,
     IonMenuButton,
   },
+  setup() {
+    return {
+      locationOutline,
+      addOutline,
+      settingsOutline,
+      informationCircleOutline,
+    };
+  }
 });
 </script>
 

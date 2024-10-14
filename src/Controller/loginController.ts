@@ -19,7 +19,7 @@ export function useLoginController() {
     try {
       const data = await loginUser(email, password);
       localStorage.setItem('user', JSON.stringify(data));
-      router.push({ path: '/geolocations' });
+      router.push({ path: 'tabs/Trajets' });
     } catch (error) {
       const alert = await alertController.create({
         header: 'Échec de la connexion',

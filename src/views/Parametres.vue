@@ -19,10 +19,11 @@
           </ion-item>
           <ion-item>
             <ion-label>E-mail</ion-label>
-            <ion-input v-model="utilisateur.email" placeholder="E-mail" readonly></ion-input>
+            <ion-input v-model="utilisateur.email"></ion-input>
           </ion-item>
         </ion-list>
 
+        <ion-button expand="block" @click="sauvegarderModifications">Sauvegarder les modifications</ion-button>
         <ion-button expand="block" @click="changerMotDePasse">Changer mot de passe</ion-button>
         <ion-button expand="block" @click="deconnexion">Déconnecter</ion-button>
       </div>
@@ -49,8 +50,8 @@ import {
   IonInput,
   IonButton,
   IonFooter
-} from '@ionic/vue'; 
-import UtilisateurService from '@/Modele/UtilisateurService'; // Import du service
+} from '@ionic/vue';
+import UtilisateurService from '@/Modele/UtilisateurService';
 
 export default defineComponent({
   components: {
@@ -62,7 +63,7 @@ export default defineComponent({
     IonItem,
     IonInput,
     IonButton,
-    IonFooter // Déclaration de IonFooter pour l'utiliser dans le template
+    IonFooter,
   },
   setup() {
     const router = useRouter();
@@ -72,28 +73,56 @@ export default defineComponent({
       email: ''
     });
 
+    // Function to load the user's information when the page is initialized
     const chargerUtilisateur = async () => {
-      utilisateur.value = await UtilisateurService.getUtilisateurActuel(); // Charger les infos de l'utilisateur
+      try {
+        utilisateur.value = await UtilisateurService.getUtilisateurActuel(); // Fetch the user's data
+      } catch (error) {
+        console.error('Error loading user data', error);
+      }
     };
 
+    // Function to save user changes
+    const sauvegarderModifications = async () => {
+      const userId = localStorage.getItem('userId'); // Retrieve the userId from local storage
+      if (!userId) {
+        console.error('User ID is missing');
+        return;
+      }
+
+      try {
+        await UtilisateurService.updateUtilisateur({
+          userId,
+          firstName: utilisateur.value.prenom,
+          lastName: utilisateur.value.nom,
+        });
+        console.log('User data updated successfully');
+      } catch (error) {
+        console.error('Error updating user data', error);
+      }
+    };
+
+    // Function to change the user's password
     const changerMotDePasse = () => {
-      console.log('Changer mot de passe');
-      // Logique pour changer le mot de passe
+      console.log('Change password functionality to be implemented.');
     };
 
+    // Function to log out the user
     const deconnexion = () => {
-      UtilisateurService.logout(); // Appel au service pour déconnecter
+      UtilisateurService.logout(); // Call the logout function
       router.push('/login');
     };
 
-    chargerUtilisateur(); // Charger les infos de l'utilisateur au démarrage
+    // Load the user's data when the page is loaded
+    chargerUtilisateur();
 
     return {
       utilisateur,
+      sauvegarderModifications,
       changerMotDePasse,
-      deconnexion
+      deconnexion,
     };
-  }
+  },
 });
 </script>
 
@@ -105,7 +134,6 @@ export default defineComponent({
   height: 100vh;
 }
 
-  /* Conteneur stylisé pour les paramètres */
 .settings-container {
   display: flex;
   flex-direction: column;
@@ -113,10 +141,10 @@ export default defineComponent({
   max-width: 400px;
   margin: 80px auto 0;
   padding: 20px;
-  border: 2px solid #f48fb1; /* Bordure rose */
+  border: 2px solid #f48fb1;
   border-radius: 10px;
-  background-color: rgba(206, 147, 216, 0.8); /* Arrière-plan violet lavande */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Ombre pour un effet de profondeur */
+  background-color: rgba(206, 147, 216, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 ion-list {

@@ -44,6 +44,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/signup', // Chemin pour la page d'inscription
     name: 'Signup',
     component: Signup
+  },
+  {
+    path: '/trajet-details',
+    name: 'DétailsTrajet',
+    component: () => import('@/views/DétailsTrajet.vue')
   }
 ];
 

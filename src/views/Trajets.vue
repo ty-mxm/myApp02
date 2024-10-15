@@ -65,9 +65,13 @@ import {
   IonPage,
   IonButton
 } from '@ionic/vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
 
 const goToDetails = () => {
-  console.log('Naviguer vers les détails du trajet');
+  router.push({ name: 'DétailsTrajet'});
 };
 </script>
 

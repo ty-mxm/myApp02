@@ -13,7 +13,7 @@
           <ion-input v-model="tripName" placeholder="Entrez le nom du trajet"></ion-input>
         </ion-item>
 
-        <!-- Bouton pour démarrer/arrêter l'enregistrement GPS -->
+        <!-- Bouton pour démarrer ou arrêter l'enregistrement GPS -->
         <ion-button expand="block" @click="toggleRecording">
           {{ recording ? 'Arrêter l\'enregistrement' : 'Démarrer l\'enregistrement' }}
         </ion-button>

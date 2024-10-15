@@ -1,5 +1,6 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import App from './App.vue';
 import router from './router';
 
 import { IonicVue } from '@ionic/vue';
@@ -34,10 +35,13 @@ import '@ionic/vue/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 
+// Créer l'application après avoir importé les dépendances
 const app = createApp(App)
   .use(IonicVue)
-  .use(router);
+  .use(router)
+  .use(createPinia()); // Utiliser Pinia ici, après avoir créé l'application
 
+// Attendre que le routeur soit prêt avant de monter l'application
 router.isReady().then(() => {
   app.mount('#app');
 });

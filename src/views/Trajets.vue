@@ -9,37 +9,18 @@
     <ion-content class="trip-content">
       <div class="trip-container">
         <ion-list>
-          <!-- Section: Mes Trajets -->
-          <ion-item-divider color="primary">Mes Trajets</ion-item-divider>
-          <ion-item>
-            <ion-label>
-              <h2>Trajet 1</h2>
-              <p>Positions enregistrées: 2</p>
-              <p>Date de création: 2024-10-10</p>
-            </ion-label>
-            <ion-button slot="end" @click="goToDetails">Détails</ion-button>
-          </ion-item>
-          <ion-item>
-            <ion-label>
-              <h2>Trajet 2</h2>
-              <p>Positions enregistrées: 3</p>
-              <p>Date de création: 2024-10-09</p>
-            </ion-label>
-            <ion-button slot="end" @click="goToDetails">Détails</ion-button>
-          </ion-item>
+  <!-- Section: Mes Trajets -->
+  <ion-item-divider color="primary">Mes Trajets</ion-item-divider>
+  <ion-item v-for="(trip, index) in mesTrajets" :key="index">
+    <ion-label>
+      <h2>{{ trip.name }}</h2>
+      <p>Positions enregistrées: {{ trip.positions }}</p>
+      <p>Date de création: {{ trip.date }}</p>
+    </ion-label>
+    <ion-button slot="end" @click="goToDetails">Détails</ion-button>
+  </ion-item>
+</ion-list>
 
-          <!-- Section: Trajets Partagés -->
-          <ion-item-divider color="primary">Trajets Partagés</ion-item-divider>
-          <ion-item>
-            <ion-label>
-              <h2>Trajet Partagé 1</h2>
-              <p>Positions enregistrées: 4</p>
-              <p>Date de création: 2024-10-08</p>
-            </ion-label>
-            <ion-button slot="end" @click="goToDetails">Détails</ion-button>
-          </ion-item>
-
-        </ion-list>
       </div>
     </ion-content>
 
@@ -66,6 +47,12 @@ import {
   IonButton
 } from '@ionic/vue';
 import { useRouter } from 'vue-router';
+import { useTripStore } from '@/store/trips'; // Importe le store des trajets
+import { computed } from 'vue';
+
+const tripStore = useTripStore();
+const mesTrajets = computed(() => tripStore.trips); // Récupère les trajets du store
+
 
 const router = useRouter();
 

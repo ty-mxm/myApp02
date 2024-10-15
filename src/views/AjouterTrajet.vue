@@ -60,6 +60,7 @@ import {
 } from '@ionic/vue'; // Importation des composants Ionic
 import { ref } from 'vue'; // Importation de la fonction ref pour la gestion des variables réactives
 import { Geolocation } from '@capacitor/geolocation'; // Importation du service de géolocalisation
+import { useTripStore } from '@/store/trips';
 
 // Initialisation des variables pour l'enregistrement et les positions GPS
 let intervalId: ReturnType<typeof setInterval> | undefined = undefined; // Intervalle pour l'enregistrement continu
@@ -100,14 +101,37 @@ const toggleRecording = async () => {
 const submitTrip = async () => {
   if (positions.value.length > 0 && !recording.value) {
     try {
-      // Ici, tu enverras les données du trajet au serveur ou les stockeras localement
-      console.log('Trajet soumis avec les positions :', positions.value);
+      const response = await fetch('https://server-1-t93s.onrender.com/api/tp/add-trip', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          pathName: tripName.value,
+          userId: 'userId', // Remplace avec un vrai userId
+          locations: positions.value
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de l\'envoi du trajet');
+      }
+
+      const data = await response.json();
+      console.log('Trajet soumis avec succès :', data.message, 'ID du trajet :', data.tripId);
+
+      // Ajouter le trajet dans le store
+      const tripStore = useTripStore();
+      tripStore.addTrip({
+        id: data.tripId,
+        name: tripName.value,
+        positions: positions.value.length,
+        date: new Date().toISOString().slice(0, 10) // Date actuelle
+      });
 
       // Réinitialiser après l'envoi
       tripName.value = '';
       positions.value = [];
-
-      // Logique supplémentaire pour l'envoi du trajet peut aller ici (par exemple, un appel API)
     } catch (error) {
       console.error('Erreur lors de l\'envoi du trajet', error);
     }
@@ -115,6 +139,8 @@ const submitTrip = async () => {
     console.warn('Aucune position enregistrée ou enregistrement encore actif');
   }
 };
+
+
 
 export default {
   name: 'AjouterTrajet', // Nom du composant

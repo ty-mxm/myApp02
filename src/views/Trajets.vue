@@ -9,18 +9,17 @@
     <ion-content class="trip-content">
       <div class="trip-container">
         <ion-list>
-  <!-- Section: Mes Trajets -->
-  <ion-item-divider color="primary">Mes Trajets</ion-item-divider>
-  <ion-item v-for="(trip, index) in mesTrajets" :key="index">
-    <ion-label>
-      <h2>{{ trip.name }}</h2>
-      <p>Positions enregistrées: {{ trip.positions }}</p>
-      <p>Date de création: {{ trip.date }}</p>
-    </ion-label>
-    <ion-button slot="end" @click="goToDetails">Détails</ion-button>
-  </ion-item>
-</ion-list>
-
+          <!-- Section: Mes Trajets -->
+          <ion-item-divider color="primary">Mes Trajets</ion-item-divider>
+          <ion-item v-for="(trip, index) in mesTrajets" :key="index">
+            <ion-label>
+              <h2>{{ trip.name }} (par {{ trip.userName }})</h2>
+              <p>Positions enregistrées: {{ trip.positions }}</p>
+              <p>Date de création: {{ trip.date }}</p>
+            </ion-label>
+            <ion-button slot="end" @click="goToDetails(trip.id)">Détails</ion-button>
+          </ion-item>
+        </ion-list>
       </div>
     </ion-content>
 
@@ -53,21 +52,20 @@ import { computed } from 'vue';
 const tripStore = useTripStore();
 const mesTrajets = computed(() => tripStore.trips); // Récupère les trajets du store
 
-
 const router = useRouter();
 
-
-const goToDetails = () => {
-  router.push({ name: 'DétailsTrajet'});
+// Fonction pour rediriger vers les détails du trajet
+const goToDetails = (tripId: string) => {
+  router.push({ name: 'DétailsTrajet', params: { id: tripId } });
 };
 </script>
 
 <style scoped>
-/* Supprimer 100vh pour permettre au contenu d'être défilable sur les petits écrans */
+/* Ajustement du style pour une meilleure accessibilité */
 .trip-content {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Aligner les éléments en haut pour éviter que le contenu soit coupé */
+  align-items: flex-start; /* Aligner les éléments en haut */
   padding-bottom: 20px;
 }
 

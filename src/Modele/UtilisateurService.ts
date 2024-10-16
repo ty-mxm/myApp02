@@ -1,32 +1,22 @@
 const API_BASE_URL = 'https://server-1-t93s.onrender.com';
 
 export default {
-  // Function to retrieve the current user's details from the API
-  async getUtilisateurActuel() {
-    const userId = localStorage.getItem('userId');
-    if (!userId) {
-      throw new Error('User not logged in.');
-    }
-
+  // Fonction pour récupérer les détails de l'utilisateur
+  async getUtilisateur(userId: string) {
     try {
       const response = await fetch(`${API_BASE_URL}/api/tp/get-user/${userId}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch user data.');
+        throw new Error('Échec de la récupération des données de l\'utilisateur.');
       }
-
-      const data = await response.json();
-      return {
-        prenom: data.firstName,
-        nom: data.lastName,
-        email: data.email,
-      };
+      const result = await response.json();
+      return result;
     } catch (error) {
-      console.error('Error fetching user details:', error);
+      console.error('Erreur lors de la récupération des données de l\'utilisateur:', error);
       throw error;
     }
   },
 
-  // Function to update user details
+  // Fonction pour mettre à jour les détails de l'utilisateur
   async updateUtilisateur(utilisateur: { userId: string, firstName: string, lastName: string }) {
     try {
       const response = await fetch(`${API_BASE_URL}/api/tp/update-user`, {
@@ -42,23 +32,49 @@ export default {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update user data.');
+        throw new Error('Échec de la mise à jour des données de l\'utilisateur.');
       }
 
-      console.log('User data updated successfully');
+      const result = await response.json();
+      console.log('Réponse API mise à jour:', result);
+      return response;
     } catch (error) {
-      console.error('Error updating user data:', error);
+      console.error('Erreur lors de la mise à jour des données de l\'utilisateur:', error);
+      throw error;
     }
   },
 
-  // Function to update the user's password
-  async updatePassword(nouveauMotDePasse: string) {
-    console.log('Password updated:', nouveauMotDePasse);
+  // Fonction pour mettre à jour le mot de passe de l'utilisateur
+  async updatePassword(userId: string, nouveauMotDePasse: string) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/tp/update-password`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          nouveauMotDePasse,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Échec de la mise à jour du mot de passe.');
+      }
+
+      const result = await response.json();
+      console.log('Réponse API mise à jour du mot de passe:', result);
+      return response;
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour du mot de passe:', error);
+      throw error;
+    }
   },
 
-  // Function to log out the user
+  // Fonction pour déconnecter l'utilisateur
   logout() {
-    console.log('User logged out');
+    console.log('Utilisateur déconnecté');
     localStorage.removeItem('userId');
+    // Ajouter d'autres nettoyages si nécessaire
   }
 };

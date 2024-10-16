@@ -18,8 +18,8 @@ export function useLoginController() {
 
     try {
       const data = await loginUser(email, password);
-      localStorage.setItem('user', JSON.stringify(data));
-      router.push({ path: 'tabs/Trajets' });
+      localStorage.setItem('user', JSON.stringify(data)); // Stockage des données utilisateur dans localStorage
+      router.push({ path: 'tabs/Trajets' }); // Redirection vers la page des trajets
     } catch (error) {
       const alert = await alertController.create({
         header: 'Échec de la connexion',

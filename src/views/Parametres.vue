@@ -19,13 +19,15 @@
           </ion-item>
           <ion-item>
             <ion-label>E-mail</ion-label>
-            <ion-input v-model="utilisateur.email"></ion-input>
+            <ion-input v-model="utilisateur.email" disabled></ion-input>
           </ion-item>
         </ion-list>
 
         <ion-button expand="block" @click="sauvegarderModifications">Sauvegarder les modifications</ion-button>
         <ion-button expand="block" @click="changerMotDePasse">Changer mot de passe</ion-button>
         <ion-button expand="block" @click="deconnexion">Déconnecter</ion-button>
+
+        <div v-if="messageConfirmation" class="message-confirmation">{{ messageConfirmation }}</div>
       </div>
     </ion-content>
 
@@ -38,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   IonPage,
@@ -72,55 +74,95 @@ export default defineComponent({
       nom: '',
       email: ''
     });
+    const messageConfirmation = ref('');
 
-    // Function to load the user's information when the page is initialized
     const chargerUtilisateur = async () => {
-      try {
-        utilisateur.value = await UtilisateurService.getUtilisateurActuel(); // Fetch the user's data
-      } catch (error) {
-        console.error('Error loading user data', error);
-      }
-    };
-
-    // Function to save user changes
-    const sauvegarderModifications = async () => {
-      const userId = localStorage.getItem('userId'); // Retrieve the userId from local storage
+      const userId = localStorage.getItem('userId');
       if (!userId) {
-        console.error('User ID is missing');
+        console.error('User ID est manquant');
+        router.push('/login');
         return;
       }
 
       try {
-        await UtilisateurService.updateUtilisateur({
+        const userData = await UtilisateurService.getUtilisateur(userId);
+        utilisateur.value = {
+          prenom: userData.firstName,
+          nom: userData.lastName,
+          email: userData.email,
+        };
+      } catch (error) {
+        console.error('Erreur lors du chargement des données de l\'utilisateur', error);
+      }
+    };
+
+    const sauvegarderModifications = async () => {
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        console.error('User ID est manquant');
+        return;
+      }
+
+      try {
+        const response = await UtilisateurService.updateUtilisateur({
           userId,
           firstName: utilisateur.value.prenom,
           lastName: utilisateur.value.nom,
         });
-        console.log('User data updated successfully');
+
+        if (response.ok) {
+          messageConfirmation.value = 'Informations utilisateur mises à jour avec succès.';
+          setTimeout(() => {
+            messageConfirmation.value = '';
+          }, 2000);
+        } else {
+          console.error('Erreur lors de la mise à jour des informations');
+        }
       } catch (error) {
-        console.error('Error updating user data', error);
+        console.error('Erreur lors de la mise à jour des informations', error);
       }
     };
 
-    // Function to change the user's password
-    const changerMotDePasse = () => {
-      console.log('Change password functionality to be implemented.');
+    const changerMotDePasse = async () => {
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        console.error('User ID est manquant');
+        return;
+      }
+
+      const nouveauMotDePasse = prompt('Entrez le nouveau mot de passe:');
+      if (nouveauMotDePasse) {
+        try {
+          const response = await UtilisateurService.updatePassword(userId, nouveauMotDePasse);
+          if (response.ok) {
+            messageConfirmation.value = 'Mot de passe mis à jour avec succès.';
+            setTimeout(() => {
+              messageConfirmation.value = '';
+            }, 2000);
+          } else {
+            console.error('Erreur lors de la mise à jour du mot de passe');
+          }
+        } catch (error) {
+          console.error('Erreur lors de la mise à jour du mot de passe', error);
+        }
+      }
     };
 
-    // Function to log out the user
     const deconnexion = () => {
-      UtilisateurService.logout(); // Call the logout function
+      UtilisateurService.logout();
       router.push('/login');
     };
 
-    // Load the user's data when the page is loaded
-    chargerUtilisateur();
+    onMounted(() => {
+      chargerUtilisateur();
+    });
 
     return {
       utilisateur,
       sauvegarderModifications,
       changerMotDePasse,
       deconnexion,
+      messageConfirmation,
     };
   },
 });

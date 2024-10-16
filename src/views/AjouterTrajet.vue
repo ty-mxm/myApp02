@@ -18,13 +18,20 @@
           {{ recording ? 'Arrêter l\'enregistrement' : 'Démarrer l\'enregistrement' }}
         </ion-button>
 
+        <!-- Affichage d'une animation pendant l'enregistrement -->
+        <div v-if="recording" class="recording-animation">
+          <ion-spinner name="bubbles"></ion-spinner>
+          <p>Enregistrement en cours...</p>
+        </div>
+
         <!-- Afficher les détails du trajet en cours après avoir arrêté l'enregistrement -->
         <div v-if="!recording && tripName && positions.length > 0" class="current-trip">
           <ion-list>
             <ion-item-divider color="primary">{{ tripName }}</ion-item-divider>
             <ion-item v-for="(position, index) in positions" :key="index">
               <ion-label>
-                Latitude: {{ position.latitude }}, Longitude: {{ position.longitude }}
+                Latitude: {{ position.latitude }}, Longitude: {{ position.longitude }}<br />
+                Adresse: {{ position.address }}
               </ion-label>
             </ion-item>
           </ion-list>
@@ -56,48 +63,50 @@ import {
   IonPage,
   IonButton,
   IonInput,
-  IonItemDivider
-} from '@ionic/vue'; // Importation des composants Ionic
-import { ref } from 'vue'; // Importation de la fonction ref pour la gestion des variables réactives
-import { Geolocation } from '@capacitor/geolocation'; // Importation du service de géolocalisation
+  IonItemDivider,
+  IonSpinner
+} from '@ionic/vue';
+import { ref } from 'vue';
+import { Geolocation } from '@capacitor/geolocation';
 import { useTripStore } from '@/store/trips';
+import { fetchAddress } from '@/utils/geocoding'; // Importe ta fonction de géocodage ici
 
-// Initialisation des variables pour l'enregistrement et les positions GPS
-let intervalId: ReturnType<typeof setInterval> | undefined = undefined; // Intervalle pour l'enregistrement continu
-const recording = ref(false); // Variable réactive pour savoir si l'enregistrement est en cours ou non
-const positions = ref<any[]>([]); // Tableau réactif pour stocker les positions GPS
-const tripName = ref(''); // Nom du trajet
+let intervalId: ReturnType<typeof setInterval> | undefined = undefined; 
+const recording = ref(false);
+const positions = ref<any[]>([]);
+const tripName = ref('');
 
-// Fonction pour démarrer ou arrêter l'enregistrement GPS
 const toggleRecording = async () => {
   if (!recording.value) {
     // Démarrer l'enregistrement
     recording.value = true;
-    positions.value = []; // Réinitialiser les positions au démarrage d'un nouveau trajet
+    positions.value = []; // Réinitialiser les positions
+    alert('Enregistrement démarré'); // Alerte pour le début de l'enregistrement
+
     intervalId = setInterval(async () => {
       try {
-        const position = await Geolocation.getCurrentPosition(); // Obtenir la position GPS actuelle
+        const position = await Geolocation.getCurrentPosition();
+        const address = await fetchAddress(position.coords.latitude, position.coords.longitude); // Récupérer l'adresse
         positions.value.push({
           latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        }); // Ajouter les coordonnées GPS dans le tableau des positions
+          longitude: position.coords.longitude,
+          address: address
+        });
       } catch (error) {
-        console.error('Erreur lors de la géolocalisation', error); // Gérer les erreurs de géolocalisation
+        console.error('Erreur lors de la géolocalisation', error);
       }
-    }, 1000); // Enregistrer la position toutes les secondes
+    }, 1000);
   } else {
     // Arrêter l'enregistrement
     recording.value = false;
     if (intervalId) {
-      clearInterval(intervalId); // Arrêter l'intervalle
-      intervalId = undefined; // Réinitialiser l'ID de l'intervalle
+      clearInterval(intervalId);
+      intervalId = undefined;
     }
-
-    // L'utilisateur peut maintenant voir le trajet et décider d'envoyer ou de démarrer un autre trajet
+    alert('Enregistrement arrêté'); // Alerte pour la fin de l'enregistrement
   }
 };
 
-// Fonction pour soumettre le trajet enregistré
 const submitTrip = async () => {
   if (positions.value.length > 0 && !recording.value) {
     try {
@@ -108,7 +117,8 @@ const submitTrip = async () => {
         },
         body: JSON.stringify({
           pathName: tripName.value,
-          userId: 'userId', // Remplace avec un vrai userId
+          userId: 'userId', // Remplace avec un vrai userId ou une variable dynamique
+          userName: 'Ty Mammoliti', // Assurez-vous que le nom de l'utilisateur est bien envoyé
           locations: positions.value
         })
       });
@@ -125,11 +135,12 @@ const submitTrip = async () => {
       tripStore.addTrip({
         id: data.tripId,
         name: tripName.value,
+        userName: 'Ty Mammoliti',
         positions: positions.value.length,
         date: new Date().toISOString().slice(0, 10) // Date actuelle
       });
 
-      // Réinitialiser après l'envoi
+      alert('Trajet envoyé avec succès !'); // Alerte pour le succès
       tripName.value = '';
       positions.value = [];
     } catch (error) {
@@ -140,10 +151,8 @@ const submitTrip = async () => {
   }
 };
 
-
-
 export default {
-  name: 'AjouterTrajet', // Nom du composant
+  name: 'AjouterTrajet',
   components: {
     IonItem,
     IonLabel,
@@ -156,22 +165,22 @@ export default {
     IonPage,
     IonButton,
     IonInput,
-    IonItemDivider
+    IonItemDivider,
+    IonSpinner
   },
   setup() {
     return {
-      toggleRecording, // Fonction pour démarrer/arrêter l'enregistrement
-      positions,       // Liste des positions GPS
-      recording,       // État de l'enregistrement
-      tripName,        // Nom du trajet
-      submitTrip       // Fonction pour soumettre le trajet
+      toggleRecording,
+      positions,
+      recording,
+      tripName,
+      submitTrip
     };
   }
 };
 </script>
 
 <style scoped>
-/* Styles pour la page */
 .trip-content {
   display: flex;
   justify-content: center;
@@ -199,5 +208,13 @@ export default {
   border-radius: 10px;
   background-color: rgba(180, 167, 220, 0.8);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.recording-animation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 10px;
 }
 </style>

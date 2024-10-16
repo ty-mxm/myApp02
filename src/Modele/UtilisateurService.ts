@@ -44,17 +44,18 @@ export default {
     }
   },
 
-  // Fonction pour mettre à jour le mot de passe de l'utilisateur
-  async updatePassword(userId: string, nouveauMotDePasse: string) {
+   // Fonction pour mettre à jour le mot de passe de l'utilisateur
+   async updatePassword(userId: string, oldPassword: string, newPassword: string) {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/tp/update-password`, {
+      const response = await fetch(`${API_BASE_URL}/api/tp/change-password`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           userId,
-          nouveauMotDePasse,
+          oldPassword,
+          newPassword,
         }),
       });
 

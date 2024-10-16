@@ -87,7 +87,7 @@
       const tripName = ref('Nom de mon Trajet');
       const tripDate = ref('2024-10-14');
       const positions = ref([
-        // Positions de simulation pour test. Remplacez par les vraies données depuis l'API.
+        // Positions de simulation pour test
         { latitude: 45.5017, longitude: -73.5673 },
         { latitude: 45.5088, longitude: -73.554 },
       ]);
@@ -95,7 +95,7 @@
   
       const loadMap = () => {
         const loader = new Loader({
-          apiKey: 'AIzaSyC33sCFImTbcwlsCe48j2PmAOi9IJwC4PA', // Assurez-vous de remplacer par votre propre clé API
+          apiKey: 'AIzaSyC33sCFImTbcwlsCe48j2PmAOi9IJwC4PA', 
           version: 'weekly',
         });
   
@@ -105,9 +105,9 @@
             zoom: 12,
           });
   
-          // Ajouter des marqueurs pour chaque position
+          // Ajout des marqueurs pour chaque position
           positions.value.forEach((pos) => {
-            const position = new google.maps.LatLng(pos.latitude, pos.longitude); // Convert to LatLng
+            const position = new google.maps.LatLng(pos.latitude, pos.longitude); 
             new google.maps.Marker({
                 position,
                 map,

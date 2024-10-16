@@ -76,6 +76,5 @@ export default {
   logout() {
     console.log('Utilisateur déconnecté');
     localStorage.removeItem('userId');
-    // Ajouter d'autres nettoyages si nécessaire
   }
 };

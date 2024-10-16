@@ -69,7 +69,7 @@ import {
 import { ref } from 'vue';
 import { Geolocation } from '@capacitor/geolocation';
 import { useTripStore } from '@/store/trips';
-import { fetchAddress } from '@/utils/geocoding'; // Importe ta fonction de géocodage ici
+import { fetchAddress } from '@/utils/geocoding'; 
 
 let intervalId: ReturnType<typeof setInterval> | undefined = undefined; 
 const recording = ref(false);
@@ -117,8 +117,8 @@ const submitTrip = async () => {
         },
         body: JSON.stringify({
           pathName: tripName.value,
-          userId: 'userId', // Remplace avec un vrai userId ou une variable dynamique
-          userName: 'Ty Mammoliti', // Assurez-vous que le nom de l'utilisateur est bien envoyé
+          userId: 'userId', 
+          userName: 'Ty Mammoliti', 
           locations: positions.value
         })
       });

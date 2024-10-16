@@ -168,7 +168,7 @@ export default defineComponent({
       messageConfirmation,
       isModalOpen,
       userId,
-      afficherMessageConfirmation // Assurez-vous que cette méthode est retournée ici
+      afficherMessageConfirmation 
     };
   },
 });
